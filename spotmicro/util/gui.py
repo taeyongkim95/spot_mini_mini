@@ -15,28 +15,28 @@ class GUI:
         self.cpitch = -7
         self.cdist = 0.66
 
-        self.xId = pb.addUserDebugParameter("x", -0.10, 0.10, 0.)
-        self.yId = pb.addUserDebugParameter("y", -0.10, 0.10, 0.)
-        self.zId = pb.addUserDebugParameter("z", -0.055, 0.17, 0.)
-        self.rollId = pb.addUserDebugParameter("roll", -np.pi / 4, np.pi / 4,
+        self.xId = pb.addUserDebugParameter(" x", -0.10, 0.10, 0.)
+        self.yId = pb.addUserDebugParameter(" y", -0.10, 0.10, 0.)
+        self.zId = pb.addUserDebugParameter(" z", -0.055, 0.17, 0.)
+        self.rollId = pb.addUserDebugParameter(" roll", -np.pi / 4, np.pi / 4,
                                                0.)
-        self.pitchId = pb.addUserDebugParameter("pitch", -np.pi / 4, np.pi / 4,
+        self.pitchId = pb.addUserDebugParameter(" pitch", -np.pi / 4, np.pi / 4,
                                                 0.)
-        self.yawId = pb.addUserDebugParameter("yaw", -np.pi / 4, np.pi / 4, 0.)
-        self.StepLengthID = pb.addUserDebugParameter("Step Length", -0.1, 0.1,
+        self.yawId = pb.addUserDebugParameter(" yaw", -np.pi / 4, np.pi / 4, 0.)
+        self.StepLengthID = pb.addUserDebugParameter(" Step Length", -0.1, 0.1,
                                                      0.0)
-        self.YawRateId = pb.addUserDebugParameter("Yaw Rate", -2.0, 2.0, 0.)
+        self.YawRateId = pb.addUserDebugParameter(" Yaw Rate", -2.0, 2.0, 0.)
         self.LateralFractionId = pb.addUserDebugParameter(
             "Lateral Fraction", -np.pi / 2.0, np.pi / 2.0, 0.)
-        self.StepVelocityId = pb.addUserDebugParameter("Step Velocity", 0.001,
+        self.StepVelocityId = pb.addUserDebugParameter(" Step Velocity", 0.001,
                                                        3., 0.001)
-        self.SwingPeriodId = pb.addUserDebugParameter("Swing Period", 0.1, 0.4,
+        self.SwingPeriodId = pb.addUserDebugParameter(" Swing Period", 0.1, 0.4,
                                                       0.2)
 
         self.ClearanceHeightId = pb.addUserDebugParameter(
-            "Clearance Height", 0.0, 0.1, 0.045)
+            " Clearance Height", 0.0, 0.1, 0.045)
         self.PenetrationDepthId = pb.addUserDebugParameter(
-            "Penetration Depth", 0.0, 0.05, 0.003)
+            " Penetration Depth", 0.0, 0.05, 0.003)
 
         self.quadruped = quadruped
 

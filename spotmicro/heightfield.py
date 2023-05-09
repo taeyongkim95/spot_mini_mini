@@ -18,9 +18,9 @@ import time
 
 textureId = -1
 
-useProgrammatic = 0
+useProgrammatic = 1
 useTerrainFromPNG = 1
-useDeepLocoCSV = 2
+useDeepLocoCSV = 0
 updateHeightfield = False
 
 heightfieldSource = useProgrammatic
