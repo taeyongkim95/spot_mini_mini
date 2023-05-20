@@ -18,12 +18,12 @@ import time
 
 textureId = -1
 
-useProgrammatic = 1
-useTerrainFromPNG = 1
-useDeepLocoCSV = 0
+useProgrammatic = False
+useTerrainFromPNG = True
+useDeepLocoCSV = False
 updateHeightfield = False
 
-heightfieldSource = useProgrammatic
+heightfieldSource = useTerrainFromPNG
 numHeightfieldRows = 256
 numHeightfieldColumns = 256
 import random
@@ -43,6 +43,8 @@ class HeightField():
         env.pybullet_client.configureDebugVisualizer(
             env.pybullet_client.COV_ENABLE_RENDERING, 0)
         heightPerturbationRange = heightPerturbationRange
+
+
         if heightfieldSource == useProgrammatic:
             for j in range(int(numHeightfieldColumns / 2)):
                 for i in range(int(numHeightfieldRows / 2)):
@@ -58,7 +60,7 @@ class HeightField():
 
             terrainShape = env.pybullet_client.createCollisionShape(
                 shapeType=env.pybullet_client.GEOM_HEIGHTFIELD,
-                meshScale=[.07, .07, 1.6],
+                meshScale=[.1, .1, 1.6],
                 heightfieldTextureScaling=(numHeightfieldRows - 1) / 2,
                 heightfieldData=self.heightfieldData,
                 numHeightfieldRows=numHeightfieldRows,
@@ -69,6 +71,7 @@ class HeightField():
             env.pybullet_client.changeDynamics(terrain,
                                                -1,
                                                lateralFriction=1.0)
+
 
         if heightfieldSource == useDeepLocoCSV:
             terrainShape = env.pybullet_client.createCollisionShape(
@@ -86,8 +89,8 @@ class HeightField():
         if heightfieldSource == useTerrainFromPNG:
             terrainShape = env.pybullet_client.createCollisionShape(
                 shapeType=env.pybullet_client.GEOM_HEIGHTFIELD,
-                meshScale=[.05, .05, 1.8],
-                fileName="heightmaps/wm_height_out.png")
+                meshScale=[.13, .13, 0.7],
+                fileName="heightmaps/maze.png")
             textureId = env.pybullet_client.loadTexture(
                 "heightmaps/gimp_overlay_out.png")
             terrain = env.pybullet_client.createMultiBody(0, terrainShape)
