@@ -14,6 +14,10 @@ from spotmicro.OpenLoopSM.SpotOL import BezierStepper
 from spotmicro.GymEnvs.spot_bezier_env import spotBezierEnv
 from spotmicro.spot_env_randomizer import SpotEnvRandomizer
 
+from pyb_utils.collision import NamedCollisionObject, CollisionDetector
+import pybullet_data
+import pybullet as pyb
+
 import matplotlib.pyplot as plt
 import seaborn as sns
 sns.set()
@@ -69,6 +73,32 @@ parser.add_argument(
     action='store_true')
 parser.add_argument("-s", "--Seed", help="Seed (Default: 0).")
 ARGS = parser.parse_args()
+
+def load_environment(client_id):
+    pyb.setAdditionalSearchPath(
+        pybullet_data.getDataPath(), physicsClientId=client_id
+    )
+
+    spot_id = pyb.loadURDF(
+        "../../spotmicro/util/pybullet_data/assets/urdf/spot.urdf",
+        [0, 0, 0],
+        useFixedBase=True,
+        physicsClientId=client_id,
+    )
+
+    plane_id = pyb.loadURDF(
+        "../../spotmicro/util/pybullet_data/plane.urdf",
+        [0, 0, 0],
+        useFixedBase=True,
+        physicsClientId=client_id,
+    )
+
+    # store body indices in a dict with more convenient key names
+    bodies = {
+        "spot": spot_id,
+        "plane": plane_id,
+    }
+    return bodies
 
 
 def main():
@@ -176,11 +206,22 @@ def main():
         agent.load(models_path + "/" + file_name + str(agent_num))
         agent.policy.episode_steps = np.inf
         policy = agent.policy
-
     env.reset()
     episode_reward = 0
     episode_timesteps = 0
     episode_num = 0
+
+    col_id = pyb.connect(pyb.DIRECT)
+
+    # collision simulator has the same objects as the main one
+    collision_bodies = load_environment(col_id)
+    spotmicrobot = NamedCollisionObject("spot")
+    walls = NamedCollisionObject("plane")
+    col_detector = CollisionDetector(
+        col_id,
+        collision_bodies
+        [(spotmicrobot, walls)]
+    )
 
     print("STARTED MINITAUR TEST SCRIPT")
 
