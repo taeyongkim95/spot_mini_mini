@@ -74,6 +74,7 @@ parser.add_argument(
 parser.add_argument("-s", "--Seed", help="Seed (Default: 0).")
 ARGS = parser.parse_args()
 
+"""
 def load_environment(client_id):
     pyb.setAdditionalSearchPath(
         pybullet_data.getDataPath(), physicsClientId=client_id
@@ -99,7 +100,7 @@ def load_environment(client_id):
         "plane": plane_id,
     }
     return bodies
-
+"""
 
 def main():
     """ The main() function. """
@@ -210,18 +211,6 @@ def main():
     episode_reward = 0
     episode_timesteps = 0
     episode_num = 0
-
-    col_id = pyb.connect(pyb.DIRECT)
-
-    # collision simulator has the same objects as the main one
-    collision_bodies = load_environment(col_id)
-    spotmicrobot = NamedCollisionObject("spot")
-    walls = NamedCollisionObject("plane")
-    col_detector = CollisionDetector(
-        col_id,
-        collision_bodies
-        [(spotmicrobot, walls)]
-    )
 
     print("STARTED MINITAUR TEST SCRIPT")
 

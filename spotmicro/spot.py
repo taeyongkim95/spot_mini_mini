@@ -1157,6 +1157,35 @@ class Spot(object):
         self.time_step = simulation_step
         self._action_repeat = action_repeat
 
+    """
+    Added by: Taeyong Kim
+    """
+    def GetFootContacts(self):
+        """Get Spot's foot contact situation with the ground.
+
+        Returns:
+          A list of 4 booleans. The ith boolean is True if leg i is in contact with
+          ground.
+        """
+        contacts = []
+        for leg_idx in range(4):
+            link_id_1 = self._foot_id_list[leg_idx - 1]
+            link_id_2 = self._foot_id_list[leg_idx]
+            contact_1 = bool(
+                self._pybullet_client.getContactPoints(
+                    bodyA=0,
+                    bodyB=self.quadruped,
+                    linkIndexA=-1,
+                    linkIndexB=link_id_1))
+            contact_2 = bool(
+                self._pybullet_client.getContactPoints(
+                    bodyA=0,
+                    bodyB=self.quadruped,
+                    linkIndexA=-1,
+                    linkIndexB=link_id_2))
+            contacts.append(contact_1 or contact_2)
+        return contacts
+
     @property
     def chassis_link_ids(self):
         return self._chassis_link_ids

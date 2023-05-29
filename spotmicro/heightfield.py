@@ -89,7 +89,7 @@ class HeightField():
         if heightfieldSource == useTerrainFromPNG:
             terrainShape = env.pybullet_client.createCollisionShape(
                 shapeType=env.pybullet_client.GEOM_HEIGHTFIELD,
-                meshScale=[.03, .13, 0.7],
+                meshScale=[.15, .12, 0.7],
                 fileName="heightmaps/maze.png")
             textureId = env.pybullet_client.loadTexture(
                 "heightmaps/gimp_overlay_out.png")
@@ -98,7 +98,7 @@ class HeightField():
                                                   -1,
                                                   textureUniqueId=textureId)
             env.pybullet_client.resetBasePositionAndOrientation(
-                terrain, [0, 0, 0.1], [0, 0, 0, 1])
+                terrain, [0.5, 0.1, 0], [0, 0, 0, 1])
             env.pybullet_client.changeDynamics(terrain,
                                                -1,
                                                lateralFriction=1.0)

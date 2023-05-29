@@ -9,6 +9,8 @@ from spotmicro.Kinematics.LieAlgebra import TransToRp
 import copy
 from spotmicro.util.gui import GUI
 
+import pybullet as p
+
 np.random.seed(0)
 
 # Multiprocessing package for python
@@ -489,18 +491,22 @@ class ARSAgent():
             # contacts = [0, 0, 0, 0]
 
             # print("CONTACTS: {}".format(contacts))
-
             yaw = self.env.return_yaw()
-            print(self.env.spot._pybullet_client)
-            #angles = self.env.spot.GetMotorAngles()
-            #print(angles[0])
-            #if angles[0] > 0.01:
-                #StepLength = 0
-                #YawRate -= 10
-            #else:
-                #YawRate -= 0.5
-            if not self.g_u_i:
-                YawRate += -yaw * P_yaw
+            FootContacts = self.env.spot.GetFootContacts()
+
+            contact_1 = bool(
+                self.env.spot._pybullet_client.getContactPoints(
+                    bodyA=0,
+                    bodyB=self.env.spot.quadruped,
+                    linkIndexA=self.env.height_field,
+                    linkIndexB=self.env.spot.chassis_link_ids[0]))
+            print(contact_1)
+            if FootContacts[0] is False and FootContacts[1] is False and FootContacts[2] is True and FootContacts[3] is True:
+                #print("ok")
+                StepLength = 0.01
+                YawRate += 4
+            #if not self.g_u_i:
+                #YawRate += -yaw * P_yaw
             # Get Desired Foot Poses
             if timesteps > 20:
                 T_bf = self.TGP.GenerateTrajectory(StepLength, LateralFraction,
