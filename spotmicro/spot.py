@@ -81,7 +81,7 @@ FOOT_NAMES = [
     "back_right_leg_foot"
 ]
 
-_CHASSIS_NAME_PATTERN = re.compile(r"chassis\D*")
+_CHASSIS_NAME_PATTERN = re.compile(r"front_\D*")
 _MOTOR_NAME_PATTERN = re.compile(r"motor\D*")
 _FOOT_NAME_PATTERN = re.compile(r"foot\D*")
 SENSOR_NOISE_STDDEV = (0.0, 0.0, 0.0, 0.0, 0.0)
@@ -329,6 +329,7 @@ class Spot(object):
         self._foot_link_ids = []
         for i in range(num_joints):
             joint_info = self._pybullet_client.getJointInfo(self.quadruped, i)
+            print(joint_info)
             joint_name = joint_info[1].decode("UTF-8")
             joint_id = self._joint_name_to_id[joint_name]
             if _CHASSIS_NAME_PATTERN.match(joint_name):
