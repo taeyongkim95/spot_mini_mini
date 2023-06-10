@@ -83,7 +83,8 @@ class spotBezierEnv(spotGymEnv):
                  height_field=False,
                  AutoStepper=True,
                  action_dim=14,
-                 contacts=True):
+                 contacts=True,
+                 cube_id=0):
 
         super(spotBezierEnv, self).__init__(
             distance_weight=distance_weight,

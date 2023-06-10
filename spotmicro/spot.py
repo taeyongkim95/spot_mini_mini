@@ -81,7 +81,7 @@ FOOT_NAMES = [
     "back_right_leg_foot"
 ]
 
-_CHASSIS_NAME_PATTERN = re.compile(r"front_\D*")
+_CHASSIS_NAME_PATTERN = re.compile(r"base_\D*")
 _MOTOR_NAME_PATTERN = re.compile(r"motor\D*")
 _FOOT_NAME_PATTERN = re.compile(r"foot\D*")
 SENSOR_NOISE_STDDEV = (0.0, 0.0, 0.0, 0.0, 0.0)
@@ -376,8 +376,7 @@ class Spot(object):
                 self.quadruped = self._pybullet_client.loadURDF(
                     pybullet_data.getDataPath() + "/assets/urdf/spot.urdf",
                     init_position,
-                    useFixedBase=self._on_rack,
-                    flags=self._pybullet_client.URDF_USE_SELF_COLLISION_EXCLUDE_PARENT)
+                    useFixedBase=self._on_rack)
             else:
                 self.quadruped = self._pybullet_client.loadURDF(
                     pybullet_data.getDataPath() + "/assets/urdf/spot.urdf",
