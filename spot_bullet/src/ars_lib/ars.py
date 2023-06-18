@@ -234,7 +234,7 @@ class Policy():
             # used to update weights, sorted by highest rwrd
             num_best_deltas=16,
             # number of timesteps per episode per rollout
-            episode_steps=5000,
+            episode_steps=500000,
             # weight of sampled exploration noise
             expl_noise=0.05,
             # for seed gen
@@ -497,7 +497,7 @@ class ARSAgent():
 
             if contactDetected is True:
                 print("ok")
-                StepLength = -0.2
+                StepLength = -0.001
                 YawRate -= 2
             else:
                 YawRate += -yaw * P_yaw

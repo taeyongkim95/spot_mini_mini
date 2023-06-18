@@ -553,7 +553,7 @@ class spotGymEnv(gym.Env):
     def _termination(self):
         position = self.spot.GetBasePosition()
         distance = math.sqrt(position[0]**2 + position[1]**2)
-        return self.is_fallen() or distance > self._distance_limit
+        return self.is_fallen()
 
     def _reward(self):
         """ NOTE: reward now consists of:

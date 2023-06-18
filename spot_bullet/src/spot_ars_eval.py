@@ -74,34 +74,6 @@ parser.add_argument(
 parser.add_argument("-s", "--Seed", help="Seed (Default: 0).")
 ARGS = parser.parse_args()
 
-"""
-def load_environment(client_id):
-    pyb.setAdditionalSearchPath(
-        pybullet_data.getDataPath(), physicsClientId=client_id
-    )
-
-    spot_id = pyb.loadURDF(
-        "../../spotmicro/util/pybullet_data/assets/urdf/spot.urdf",
-        [0, 0, 0],
-        useFixedBase=True,
-        physicsClientId=client_id,
-    )
-
-    plane_id = pyb.loadURDF(
-        "../../spotmicro/util/pybullet_data/plane.urdf",
-        [0, 0, 0],
-        useFixedBase=True,
-        physicsClientId=client_id,
-    )
-
-    # store body indices in a dict with more convenient key names
-    bodies = {
-        "spot": spot_id,
-        "plane": plane_id,
-    }
-    return bodies
-"""
-
 def main():
     """ The main() function. """
 
