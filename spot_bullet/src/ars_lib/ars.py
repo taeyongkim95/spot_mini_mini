@@ -492,19 +492,21 @@ class ARSAgent():
 
             # print("CONTACTS: {}".format(contacts))
             yaw = self.env.return_yaw()
+
             contactDetected = bool(
                 self.env.spot._pybullet_client.getContactPoints(self.env.spot.quadruped, self.env.hf.hf_id))
 
             if contactDetected is True:
                 print("ok")
                 StepLength = -0.001
-                YawRate -= 2
+                YawRate = -2
             else:
                 YawRate += -yaw * P_yaw
+
             if not self.g_u_i:
                 YawRate += -yaw * P_yaw
             # Get Desired Foot Poses
-            if timesteps > 20:
+            if timesteps > 5:
                 T_bf = self.TGP.GenerateTrajectory(StepLength, LateralFraction,
                                                    YawRate, StepVelocity, T_b0,
                                                    T_bf, ClearanceHeight,
