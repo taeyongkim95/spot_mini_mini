@@ -99,7 +99,7 @@ class HeightField():
                                                   -1,
                                                   textureUniqueId=textureId)
             env.pybullet_client.resetBasePositionAndOrientation(
-                terrain, [0.5, 0.1, 0], [0, 0, 0, 1])
+                terrain, [0.5, -0.1, 0], [0, 0, 0, 1])
             env.pybullet_client.changeDynamics(terrain,
                                                -1,
                                                lateralFriction=1.0)

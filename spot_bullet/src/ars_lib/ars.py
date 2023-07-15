@@ -7,6 +7,7 @@ from spotmicro.OpenLoopSM.SpotOL import BezierStepper
 from spotmicro.Kinematics.SpotKinematics import SpotModel
 from spotmicro.Kinematics.LieAlgebra import TransToRp
 import copy
+import random
 from spotmicro.util.gui import GUI
 
 import pybullet as p
@@ -431,6 +432,11 @@ class ARSAgent():
         old_act = action[:actions_to_filter]
         # For auto yaw correction
         yaw = 0.0
+
+        lastStepHitWall = 0
+        newYaw = 0
+        randomYawRate = 0
+
         while not done and timesteps < self.policy.episode_steps:
             # self.smach.ramp_up()
             pos, orn, StepLength, LateralFraction, YawRate, StepVelocity, ClearanceHeight, PenetrationDepth = self.smach.StateMachine(
@@ -490,25 +496,49 @@ class ARSAgent():
             contacts = copy.deepcopy(state[-4:])
             # contacts = [0, 0, 0, 0]
 
-            # print("CONTACTS: {}".format(contacts))
             yaw = self.env.return_yaw()
 
+            #Taeyong Kim
             contactDetected = bool(
                 self.env.spot._pybullet_client.getContactPoints(self.env.spot.quadruped, self.env.hf.hf_id))
 
-            if contactDetected is True:
-                print("ok")
+
+            mazePos = p.getDebugVisualizerCamera()[11]
+            mazePosX = mazePos[0]
+            mazePosY = mazePos[1]
+
+            if contactDetected is True and StepLength > 0:
                 StepLength = -0.001
-                YawRate = -2
-            else:
-                YawRate += -yaw * P_yaw
+                newYaw = YawRate
+                if mazePosX > 3 and mazePosY < 0:
+                    randomYawRate = -2
+                if mazePosX < -1.3 or mazePosY < -2:
+                    randomYawRate = 2
+                elif mazePosX < 1.5 and mazePosY < 0.2:
+                    randomYawRate = -2
+                elif mazePosX < 1.5 and mazePosY < 1.5:
+                    randomYawRate = -2
+                else:
+                    randomYawRate = 2
+                lastStepHitWall = timesteps
+
 
             if not self.g_u_i:
                 YawRate += -yaw * P_yaw
             # Get Desired Foot Poses
-            if timesteps > 5:
+            if lastStepHitWall == 0:
                 T_bf = self.TGP.GenerateTrajectory(StepLength, LateralFraction,
                                                    YawRate, StepVelocity, T_b0,
+                                                   T_bf, ClearanceHeight,
+                                                   PenetrationDepth, contacts)
+            elif timesteps != 0 and timesteps < lastStepHitWall + 80 and (timesteps - lastStepHitWall) < 60:
+                T_bf = self.TGP.GenerateTrajectory(-0.03, LateralFraction,
+                                                   randomYawRate, StepVelocity, T_b0,
+                                                   T_bf, ClearanceHeight,
+                                                   PenetrationDepth, contacts)
+            elif timesteps > 50:
+                T_bf = self.TGP.GenerateTrajectory(StepLength, LateralFraction,
+                                                   newYaw, StepVelocity, T_b0,
                                                    T_bf, ClearanceHeight,
                                                    PenetrationDepth, contacts)
             else:
