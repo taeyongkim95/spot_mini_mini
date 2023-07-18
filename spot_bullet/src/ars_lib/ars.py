@@ -510,9 +510,11 @@ class ARSAgent():
             if contactDetected is True and StepLength > 0:
                 StepLength = -0.001
                 newYaw = YawRate
-                if mazePosX > 3 and mazePosY < 0:
-                    randomYawRate = -2
-                if mazePosX < -1.3 or mazePosY < -2:
+                if mazePosX > 4:
+                    randomYawRate = -1.8
+                elif mazePosX > 3 and mazePosY < 0:
+                    randomYawRate = 2
+                elif mazePosX < -1.3 or mazePosY < -2:
                     randomYawRate = 2
                 elif mazePosX < 1.5 and mazePosY < 0.2:
                     randomYawRate = -2
