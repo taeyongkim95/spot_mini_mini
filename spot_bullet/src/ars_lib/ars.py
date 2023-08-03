@@ -510,7 +510,9 @@ class ARSAgent():
             if contactDetected is True and StepLength > 0:
                 StepLength = -0.001
                 newYaw = YawRate
-                if mazePosX > 4:
+
+                """The code block below used specific coordinates to have the spotmicro make the correct directional changes for a quick maze navigation"""
+                """if mazePosX > 4:
                     randomYawRate = -1.8
                 elif mazePosX > 3 and mazePosY < 0:
                     randomYawRate = 2
@@ -520,8 +522,9 @@ class ARSAgent():
                     randomYawRate = -2
                 elif mazePosX < 1.5 and mazePosY < 1.5:
                     randomYawRate = -2
-                else:
-                    randomYawRate = 2
+                else
+                    randomYawRate = 2"""
+                randomYawRate = random.choice([-2, 2])
                 lastStepHitWall = timesteps
 
 
@@ -543,6 +546,7 @@ class ARSAgent():
                                                    newYaw, StepVelocity, T_b0,
                                                    T_bf, ClearanceHeight,
                                                    PenetrationDepth, contacts)
+
             else:
                 T_bf = self.TGP.GenerateTrajectory(0.0, 0.0, 0.0, 0.1, T_b0,
                                                    T_bf, ClearanceHeight,

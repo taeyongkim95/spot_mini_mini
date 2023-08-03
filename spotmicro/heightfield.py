@@ -87,6 +87,7 @@ class HeightField():
                                                lateralFriction=1.0)
 
         #(.11, .11, .75) for maze
+        #(.05, .05, 0.9) for easy
         if heightfieldSource == useTerrainFromPNG:
             terrainShape = env.pybullet_client.createCollisionShape(
                 shapeType=env.pybullet_client.GEOM_HEIGHTFIELD,
